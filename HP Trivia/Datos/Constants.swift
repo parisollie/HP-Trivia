@@ -8,6 +8,7 @@
 
 
 import Foundation
+//Paso 48
 import SwiftUI
 
 enum Constants{
@@ -17,7 +18,7 @@ enum Constants{
     static let previewQuestion = try! JSONDecoder().decode([Question].self, from: Data(contentsOf: Bundle.main.url(forResource: "trivia", withExtension: "json")!))[0]
 }
 
-//Vid 108
+//V-94,paso 47,para nuestro background.
 struct InfoBackgroundImage:View {
     var body:some View {
         Image("parchment")
@@ -28,6 +29,7 @@ struct InfoBackgroundImage:View {
 }
 
 extension Button{
+    //Paso 55
     func doneButton()->some View{
         self
             .font(.largeTitle)

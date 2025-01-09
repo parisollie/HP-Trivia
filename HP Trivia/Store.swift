@@ -8,10 +8,8 @@
 import Foundation
 import StoreKit
 
-//Vid 119
-
 enum BookStatus: Codable{
-    //Vid 110,estado de los libros
+    //V-96,paso 74,estado de los libros
     case active
     case inactive
     case locked
@@ -19,7 +17,7 @@ enum BookStatus: Codable{
 
 @MainActor
 class Store: ObservableObject {
-    //Vid 110P,onemos los 7 libros de HP
+    //Paso 75,ponemos los 7 libros de HP
     @Published var books: [BookStatus] = [.active,.active,.inactive,.locked,.locked,.locked,.locked]
     // 119
     @Published var products: [Product] = []

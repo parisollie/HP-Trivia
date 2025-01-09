@@ -16,11 +16,11 @@ struct ContentView: View {
     @State private var moveBackgroundImage = false
     //paso 20, para el audio.
     @State private var audioPlayer: AVAudioPlayer!
-    //Vid 107, animation letters
+    //Paso 24, animation letters
     @State private var animateViewsIn = false
-    //Vid 108
+    //V-94,paso 57
     @State private var showInstructions = false
-    //Vid 110
+    //V-96,paso 84
     @State private var showSettings = false
     //Vid 111
     @State private var playGame = false
@@ -52,8 +52,9 @@ struct ContentView: View {
                     }
                 //Paso 4 ,ponemos el Vstack
                 VStack{
-                    //Vid 107
+                    //Paso 26, Vstack para animacion
                     VStack{
+                        //Paso 25,para la animacon de las letras
                         if animateViewsIn{
                             //Paso 5, ponemos un Vstack para add la imagen.
                             VStack{
@@ -69,9 +70,10 @@ struct ContentView: View {
                             }
                             //Paso 13, agregamos el padding
                             .padding(.top,70)
-                            //Vid 107
+                            //V-93,Paso 23 movimiento de las letras
                             .transition(.move(edge: .top))
                         }
+                        //Paso 27, para poner las letras en animcion.
                     }.animation(.easeOut(duration: 0.7).delay(2),value: animateViewsIn)
                     
                     //Paso 12, Agregamos un Spacer
@@ -79,8 +81,8 @@ struct ContentView: View {
                     
                     //Paso 13, creamos el Vstack
                     VStack{
+                        //Paso 45
                         if animateViewsIn{
-                            
                             VStack{
                                 Text("Recent Scores")
                                     .font(.title2)
@@ -95,9 +97,10 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .background(.black.opacity(0.7))
                             .cornerRadius(15)
-                            //Vid 107, para que aparezca en el mismo lugar
+                            //Paso 44, para que aparezca en el mismo lugar
                             .transition(.opacity)
                         }
+                        //Paso 46
                     }.animation(.linear(duration: 1).delay(4),value: animateViewsIn)
                     
                     
@@ -105,12 +108,13 @@ struct ContentView: View {
                     
                     HStack{
                         Spacer()
-                        //Vid 107
+                        //Paso 37
                         VStack{
+                            //Paso 36
                             if animateViewsIn{
                                 //Paso 8, Creamos el botón.
                                 Button{
-                                    //Vid 108 ,Show instructions screen
+                                    //Paso 57,vamos a la pantalla de instrucciones
                                     showInstructions.toggle()
                                     
                                 }label:{
@@ -119,20 +123,23 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .shadow(radius: 5)
                                 }
-                                //Vid 107
+                                //Paso 35
                                 .transition(.offset(x:-geo.size.width/4))
-                                //Vid 108 , llamamos a nuestra vista de instrucciones
+                                //Paso 58, llamamos a nuestra vista de instrucciones
                                 .sheet(isPresented: $showInstructions){
+                                    //Paso 59, vamos a la vista
                                     Instructions()
                                 }
                             }
                         }
+                        //V-93,Paso 38, se repiten los mismos pasos que en el otro botn
                         .animation(.easeOut(duration: 0.7).delay(2.7),value: animateViewsIn)
                         
                         Spacer()
                         
-                        //Vid
+                        //Paso 32
                         VStack{
+                            //Paso 31
                             if animateViewsIn{
                                 //Paso 9,Siguiente botón "Play".
                                 Button{
@@ -161,7 +168,7 @@ struct ContentView: View {
                                         scalePlayButton.toggle()
                                     }
                                 }
-                                //Vid 107
+                                //Paso 30
                                 .transition(.offset(y:geo.size.height/3))
                                 //Vid 111
                                 .fullScreenCover(isPresented:$playGame){
@@ -181,17 +188,19 @@ struct ContentView: View {
                                 //Vid 126
                                 .disabled(store.books.contains(.active) ? false : true)
                             }
+                            //Paso 34
                         }.animation(.easeOut(duration: 0.7).delay(2),value: animateViewsIn)
                         
                         Spacer()
                         
             
-                        //Vid 107
+                        //Paso 41
                         VStack{
+                            //paso 40
                             if animateViewsIn{
                                 //Paso 10, settings boton
                                 Button{
-                                    //Vid 110,show settings screen
+                                    //Paso 85,show settings screen
                                     showSettings.toggle()
                                 }label:{
                                     Image(systemName: "gearshape.fill")
@@ -199,15 +208,18 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .shadow(radius: 5)
                                 }
-                                //Vid 107
+                                //Paso 39
                                 .transition(.offset(x:geo.size.width/4))
                                 //Vid 110, llamamos a nuestra vista de instrucciones
+                                //paso 86
                                 .sheet(isPresented: $showSettings){
+                                    //Paso 87
                                     Settings()
                                     //Vid 119
                                     .environmentObject(store)
                                 }
                             }
+                            //Paso 43
                         }.animation(.easeOut(duration: 0.7).delay(2.7),value: animateViewsIn)
                         
                         
@@ -238,7 +250,7 @@ struct ContentView: View {
         .ignoresSafeArea()
         //Paso 22, Tan pronto aparezca la pantalla ponemos el audio, con el onAppear
         .onAppear(){
-            //Vid 107, llamamos las letras al frente
+            //paso 28, llamamos las letras al frente
             animateViewsIn = true
             playAudio()
             
@@ -296,5 +308,8 @@ struct ContentView: View {
     
 
 #Preview {
-    ContentView()
+    //Paso 29,
+    VStack{
+        ContentView()
+    }
 }
