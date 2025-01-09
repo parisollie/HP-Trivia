@@ -22,7 +22,7 @@ struct ContentView: View {
     @State private var showInstructions = false
     //V-96,paso 84
     @State private var showSettings = false
-    //Vid 111
+    //V-97,paso 106
     @State private var playGame = false
     //Vid 119
     @EnvironmentObject private var store: Store
@@ -146,7 +146,7 @@ struct ContentView: View {
                                     filterQuestions()
                                     //Vid 126
                                     game.startGame()
-                                    //Vid 111, start new game
+                                    //paso 107, start new game
                                     playGame.toggle()
                                 }label: {
                                     //Paso 14, ponemos en un Text el titulo
@@ -170,8 +170,9 @@ struct ContentView: View {
                                 }
                                 //Paso 30
                                 .transition(.offset(y:geo.size.height/3))
-                                //Vid 111
+                                //Paso 108, cambiamos de ventana al presionar el botón.
                                 .fullScreenCover(isPresented:$playGame){
+                                    //Paso 109
                                     Gameplay()
                                     //Vid 123
                                         .environmentObject(game)

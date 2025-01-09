@@ -8,14 +8,17 @@
 import SwiftUI
 import AVKit
 
+//V-97,Paso 88, creamos el archivo
 struct Gameplay: View {
-    //Vid 112, animaciones
+    //V-98,Paso 110 animaciones
     @State private  var animateViewsIn = false
-    //Vid 113
+    //Paso 128,respuesta correcta
     @State private var tappedCorrectAnswer = false
-    //Vid 114
+    //Paso 140
     @State private var hintWiggle = false
+    //Paso 146
     @State private var scaleNextButton = false
+    //Paso 149
     @State private var movePointsToScore = false
     //Vid 115
     @Environment(\.dismiss) var dismiss
@@ -35,16 +38,23 @@ struct Gameplay: View {
     
     
     var body: some View {
+        //Paso 89 creamos el Geometry Reader
         GeometryReader{geo in
+            //Paso 91, ponemos el Zstack
             ZStack{
+                //Paso 93, ponemos el background.
                 Image("hogwarts")
                     .resizable()
                     .frame(width: geo.size.width * 3 ,height: geo.size.height * 1.05)
                     .overlay(Rectangle().foregroundColor(
                         .black.opacity(0.8)))
+                //Paso 94, ponemos el Vstack
                 VStack{
+                    //Paso 95, ponemos el HStack
                     HStack{
+                        //V-98,Paso 125, pone las Mark
                         //MARK: Controls
+                        //Paso 96, ponemos el boton
                         Button("End Game") {
                             //TODO: End Game
                             //Vid 127
@@ -52,37 +62,39 @@ struct Gameplay: View {
                             //Vid 115
                             dismiss()
                         }
+                        //Paso 95, ponemos sus modifiers
                         .buttonStyle(.borderedProminent)
                         .tint(.red.opacity(0.5))
                         
                         Spacer()
                         
-                        //Text("Score: 33")
-                        
-                        //Vid 127
+                        //Paso 96
                         Text("Score: \(game.gameScore)")
                     }
-                    
+                    //Paso 98, agregamos el padding
                     .padding()
                     .padding(.vertical,30)
                     
                     //Vid 112
                     //MARK: Question
+                    //Paso 112
                     VStack{
+                        //Paso 111
                         if animateViewsIn{
                             //Text("Who is Harry Potter?")
-                            //Vid 127
+                            //Paso 99, agregamos el texto de las preguntas
                             Text(game.currentQuestion.question)
+                                //Agregamos los modifiers
                                 .font(.custom(Constants.hpFont, size: 50))
                                 .multilineTextAlignment(.center)
                                 .padding()
-                                //Vid 112
+                                //Paso 113
                                 .transition(.scale)
                                 //Vid 117
                                 .opacity(tappedCorrectAnswer ? 0.1 : 1)
                         }
                     }
-                    //Vid 112 y 118
+                    //Paso 114 y 118
                     .animation(.easeInOut(duration:animateViewsIn ? 2 : 0),
                                value: animateViewsIn)
                 
@@ -91,24 +103,31 @@ struct Gameplay: View {
                     
                     // MARK: Hints
                     HStack{
-                        //Vid 112
+                        //Paso 117,para animacion
                         VStack{
+                            //paso 118
                             if animateViewsIn{
+                                //Paso 100, agregamos las imagenes de los libros
                                 Image(systemName: "questionmark.app.fill")
+                                    //Ponemos sus modifiers
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 100)
                                     .foregroundColor(.cyan)
+                                    //Paso 142, si es verdad  la rotacion sera de esta manera(aunque no funciona)
                                     .rotationEffect(.degrees(hintWiggle ? -13 : -17))
                                     .padding()
                                     .padding(.leading,20)
+                                    //Paso 116,ponemos el transition
                                     .transition(.offset(x:-geo.size.width/2))
+                                    //Paso 141,ponemos el OnAppear
                                     .onAppear{
+                                        //Paso 119, me equivoque en este numero de paso xd
                                         withAnimation(.easeInOut(duration: 0.1).repeatCount(9).delay(5).repeatForever()){
                                             hintWiggle = true
                                         }
                                     }
-                                //Vid 115, girar el hint
+                                    //Vid 115, girar el hint
                                     .onTapGesture {
                                         withAnimation(
                                             .easeInOut(duration: 1)){
@@ -143,10 +162,12 @@ struct Gameplay: View {
                                    value: animateViewsIn)
                         
                         Spacer()
-                        //Vid 112
+                        //Paso 120, ponemos el Vstack con el if ,para animacion
                         VStack{
                             if animateViewsIn{
+                                //Paso 101, para el libro
                                 Image(systemName: "book.closed")
+                                    //Agregamos sus modifiers.
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 50)
@@ -154,18 +175,22 @@ struct Gameplay: View {
                                     .frame(width: 100,height: 100)
                                     .background(.cyan)
                                     .cornerRadius(20)
+                                     //Paso 144,para que el libro gire en diagonal.
                                     .rotationEffect(.degrees(hintWiggle ? 13 : 17))
                                     .padding()
                                     .padding(.trailing,20)
+                                     //Paso 119, ponemos el transiton.
                                     .transition(.offset(x:geo.size.width/2))
+                                    //Paso 143
                                     .onAppear{
                                         withAnimation(.easeInOut(duration: 0.1).repeatCount(9).delay(5).repeatForever()){
                                             hintWiggle = true
                                         }
                                     }
                                 
-                                //Vid 115, girar el hint
+                                    //Vid 115, girar el hint
                                     .onTapGesture {
+                                        //Paso 121
                                         withAnimation(
                                             .easeInOut(duration: 1)){
                                                 revealBook = true
@@ -201,30 +226,35 @@ struct Gameplay: View {
                     .padding(.bottom)
                     
                     //MARK: ANSWERS
+                    //Paso 102, agregamos el LazyVGrid
                     LazyVGrid(columns:[GridItem(),
                         GridItem()]){
+                        //Paso 103,ponemos el for
                         ForEach(Array(game.answers.enumerated()),
                         id:\.offset) { i, answer in
                             //Vid 115
                             if game.currentQuestion.answers[answer] == true {
-                                //Vid 112
+                                //Paso 123, ponemos el Vstack con el if ,para animacion.
                                 VStack{
                                     if animateViewsIn{
                                         if tappedCorrectAnswer == false {
+                                            //Paso 105, ponemos la respuesta
                                             Text(answer)
-                                            //Vid 111, para que pueda entrar toda la respuesta.
+                                            //Agregamos sus modifiers.
+                                                //Para que pueda entrar toda la respuesta,minimumSca...
                                                 .minimumScaleFactor(0.5)
                                                 .multilineTextAlignment(.center)
                                                 .padding(10)
                                                 .frame(width: geo.size.width/2.15,height: 80)
                                                 .background(.green.opacity(0.5))
                                                 .cornerRadius(25)
-                                                //Vid 112
+                                                //Paso 122, animacion transition
                                                 .transition(.asymmetric(insertion: .scale, removal:.scale(scale:5).combined(with: .opacity.animation(.easeOut(duration: 0.5)))))
                                             
                                         
                                                 .matchedGeometryEffect(id: "answer", in: namespace)
                                                 .onTapGesture {
+                                                    //Paso 124
                                                     withAnimation(.easeOut(duration: 1)){
                                                         tappedCorrectAnswer = true
                                                     }
@@ -287,28 +317,35 @@ struct Gameplay: View {
                     }
                     
                     Spacer()
-                    
                 }
+                //Paso 95, ponemos el frame.
                 .frame(width: geo.size.width,height: geo.size.height)
+                //Paso 97, ponemos el color
                 .foregroundColor(.white)
                 
-                //Vid 113
+                //V-99,paso 126
                 //MARK: CELEBRATION
                 VStack{
                     Spacer()
+                    //Paso 131, hacemos el Vstack con el if para la animacion
                     VStack{
                         if tappedCorrectAnswer{
+                            //Paso 127, ponemos el puntuaje
                             Text("\(game.questionScore)")
+                                //Agregamos sus modifiers
                                 .font(.largeTitle)
                                 .padding(.top,50)
+                                //Paso 130
                                 .transition(.offset(y:-geo.size.height/4))
-                            //Vid 114, mover el score a la esquina
+                                //Paso 149, mover el score a la esquina
                                 .offset(x:movePointsToScore ?
                                         geo.size.width/2.3 : 0 , y:movePointsToScore ?
                                         -geo.size.height/13 :0)
-                            //el cero significa que se hace invisible
+                                //el cero significa que se hace invisible al pasar a la esquina.
                                 .opacity(movePointsToScore ? 0: 1)
+                                //Paso 150,ponemos la animacion para que se mueva
                                 .onAppear{
+
                                     withAnimation(
                                         .easeInOut(duration: 1).delay(3)){
                                             movePointsToScore = true
@@ -316,26 +353,32 @@ struct Gameplay: View {
                                 }
                         }
                     }
-                    //Vid 113
+                    //Paso 132, ponemos la animacion
                     .animation(.easeInOut(duration: 1).delay(2),
                                value: tappedCorrectAnswer)
                     Spacer()
                     
+                    //Paso 134, ponemos el Vstack con el if para animacion
                     VStack{
                         if tappedCorrectAnswer{
+                            //Paso 128
                             Text("Brillant")
+                                //Agregamos sus modifiers.
                                 .font(.custom(Constants.hpFont, size: 100))
+                                //Paso 133, ponemos la animacion.
                                 .transition(.scale.combined(with: .offset(y:-geo.size.height/2)))
                         }
                     }
-                    //Vid 113
+                    //Paso 135, ponemos la animacion
                     .animation(.easeInOut(duration: tappedCorrectAnswer ? 1 : 0 ).delay(tappedCorrectAnswer ? 1 : 0),
                                value: tappedCorrectAnswer)
                     
                     Spacer()
                     //Vid 114
                     if tappedCorrectAnswer{
+                        //Paso 129
                         Text(game.correctAnswer)
+                            //Agregamos sus modifiers.
                             .minimumScaleFactor(0.5)
                             .multilineTextAlignment(.center)
                             .padding(10)
@@ -346,15 +389,18 @@ struct Gameplay: View {
                             //Vid 115
                             .matchedGeometryEffect(id: "answer", in: namespace)
                     }
-                    
+                    //Paso 128, agrupar los spacer
                     Group{
                         Spacer()
                         Spacer()
                     }
-                    
+                    //Paso 137, ponemos el Vstack con el if para animacion
                     VStack{
+                        //V-100,paso 139, si machea con la respuesta correcta.
                         if tappedCorrectAnswer{
+                            //Paso 130, ponemos el botón.
                             Button("Next Level ->"){
+                                //V-99, es lo que se debe hacer.
                                 //TODO: Reset level for next question
                                 //Vid 117
                                 animateViewsIn = false
@@ -371,22 +417,25 @@ struct Gameplay: View {
                                     animateViewsIn = true
                                 }
                             }
+                            //Agreamos sus modifiers.
                             .buttonStyle(.borderedProminent)
                             .tint(.blue.opacity(0.5))
                             .font(.largeTitle)
-                            //Vid 113
+                            //Paso 136
                             .transition(.offset(y:geo.size.height/3))
                             
-                            //Vid 106, si es verdad el boton cambia a 1.2 sino a 1
+                            //Paso 147, si es verdad el boton cambia a 1.2 sino a 1
                             .scaleEffect(scaleNextButton ? 1.2 : 1)
+                            //Paso 145
                             .onAppear{
                                 withAnimation(.easeInOut(duration: 1.3).repeatForever()){
+                                    //Paso 148
                                     scaleNextButton.toggle()
                                 }
                             }
                         }
                     }
-                    //Vid 113
+                    //Paso 138,ponemos la animacion
                     .animation(.easeInOut(duration: tappedCorrectAnswer ? 2.7 : 0).delay(tappedCorrectAnswer ? 2.7 :0),
                                value: tappedCorrectAnswer)
                     
@@ -396,15 +445,18 @@ struct Gameplay: View {
                     }
                 }
                 .foregroundColor(.white)
-            }.frame(width: geo.size.width,height: geo.size.height)
+            }
+            //Paso 92, ponemos el frame para que todo este centrado
+            .frame(width: geo.size.width,height: geo.size.height)
         }
+        //Paso 90
         .ignoresSafeArea()
-        //Vid 112
+        //Paso 115, se debe poner para funcionen las animaciones el OnAppear.
         .onAppear{
             animateViewsIn = true
             //Vid 129
             DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
-                //Vid 113
+                //V-99,paso 129
                 //tappedCorrectAnswer = true
                 playMusic()
             }
@@ -461,11 +513,10 @@ struct Gameplay: View {
         generator.notificationOccurred(.error)
     }
     
-    
-    
-    
 }
 
 #Preview {
-    Gameplay()
+    VStack{
+        Gameplay()
+    }
 }
