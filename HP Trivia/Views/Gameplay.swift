@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+//Para audio
 import AVKit
 
 //V-97,Paso 88, creamos el archivo
@@ -34,7 +35,7 @@ struct Gameplay: View {
     //@State private var tappedWrongAnswer = false
     //Paso 173
     @State private var wrongAnswersTapped:[Int] = []
-    //Vid 118
+    //Paso 190
     @State private var musicPlayer: AVAudioPlayer!
     @State private var sfxPlayer: AVAudioPlayer!
     //Vid 123
@@ -137,7 +138,7 @@ struct Gameplay: View {
                                             .easeInOut(duration: 1)){
                                                 revealHint = true
                                             }
-                                            //Vid 118
+                                            //Paso 194
                                         playFliSound()
                                         //Vid 127
                                         game.questionScore -= 1
@@ -167,7 +168,7 @@ struct Gameplay: View {
                                     .disabled(tappedCorrectAnswer)
                             }
                         }
-                        //Vid 112
+                        //Paso 184
                         .animation(.easeInOut(duration: animateViewsIn ? 1.5 : 0).delay(animateViewsIn ? 2 : 0),
                                    value: animateViewsIn)
                         
@@ -229,7 +230,7 @@ struct Gameplay: View {
                                     .disabled(tappedCorrectAnswer)
                             }
                         }
-    
+                         //Paso 185
                         .animation(.easeInOut(duration: animateViewsIn ? 1.5 : 0).delay(animateViewsIn ?  2 : 0 ),
                                    value: animateViewsIn)
                     }
@@ -273,7 +274,7 @@ struct Gameplay: View {
                                                         //Paso 166
                                                         tappedCorrectAnswer = true
                                                     }
-                                                    //Vid 118
+                                                    //Paso 197
                                                     playCorrectSound()
                                                     //Vid 127
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
@@ -283,7 +284,7 @@ struct Gameplay: View {
                                         }
                                     }
                                 }
-                                //Vid 112
+                                //Paso 186
                                 .animation(.easeInOut(duration:animateViewsIn ? 1 : 0 ).delay(animateViewsIn ?  1.5 : 0),
                                            value: animateViewsIn)
                             //Paso 163, agregamos el else
@@ -311,8 +312,9 @@ struct Gameplay: View {
                                                         //Paso 169, y paso 173, ponemos el append
                                                         wrongAnswersTapped.append(i)
                                                     }
-                                                //
+                                                //Paso 195
                                                 playWrongSound()
+                                                //Paso 199
                                                 giveWrongFeedback()
                                                 //
                                                 game.questionScore -= 1
@@ -326,7 +328,8 @@ struct Gameplay: View {
                                             .opacity(tappedCorrectAnswer ? 0.1 : 1)
                                     }
                                 }
-                                //
+                                //V-104,Paso 183, ponemos el animatedViews In
+                                //Paso 187, ponemos el delay
                                 .animation(.easeInOut(duration: animateViewsIn ? 1 : 0).delay(animateViewsIn ? 1.5 : 0 ),
                                            value: animateViewsIn)
                                 
@@ -389,6 +392,7 @@ struct Gameplay: View {
                         }
                     }
                     //Paso 135, ponemos la animacion
+                    //Paso 188, ponemos el delay
                     .animation(.easeInOut(duration: tappedCorrectAnswer ? 1 : 0 ).delay(tappedCorrectAnswer ? 1 : 0),
                                value: tappedCorrectAnswer)
                     
@@ -431,7 +435,7 @@ struct Gameplay: View {
                                 //Vid 127
                                 game.newQuestion()
                                 
-                                
+                                //Paso 182
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                                     animateViewsIn = true
                                 }
@@ -455,6 +459,7 @@ struct Gameplay: View {
                         }
                     }
                     //Paso 138,ponemos la animacion
+                    //Paso 189, ponemos el delay
                     .animation(.easeInOut(duration: tappedCorrectAnswer ? 2.7 : 0).delay(tappedCorrectAnswer ? 2.7 :0),
                                value: tappedCorrectAnswer)
                     
@@ -477,12 +482,12 @@ struct Gameplay: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
                 //V-99,paso 129
                 //tappedCorrectAnswer = true
+                //Paso 192, ponemos la música.
                 playMusic()
             }
         }
     }
-    //Vid 118
-    
+    //Paso 191
     // Function to initialize and play audio.
     private func playMusic() {
         let songs = ["let-the-mystery-unfold","spellcraft","hiding-place-in-the-forest","deep-in-the-dell"]
@@ -498,7 +503,7 @@ struct Gameplay: View {
                 // Set the number of loops and play the audio
                 musicPlayer.numberOfLoops = -1
                 musicPlayer.play()
-            } catch {
+            }catch {
                 // This block will execute if any error occurs
                 print("There was an issue playing the sound: \(error)")
             }
@@ -509,24 +514,25 @@ struct Gameplay: View {
         
     }
     
+    //Paso 193
     private func playFliSound() {
         let sound = Bundle.main.path(forResource: "page-flip", ofType: "mp3")
         sfxPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         sfxPlayer.play()
     }
-    
+    //Paso 195
     private func playWrongSound() {
         let sound = Bundle.main.path(forResource: "negative-beeps", ofType: "mp3")
         sfxPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         sfxPlayer.play()
     }
-    
+    //Paso 196
     private func playCorrectSound() {
         let sound = Bundle.main.path(forResource: "magic-wand", ofType: "mp3")
         sfxPlayer = try! AVAudioPlayer(contentsOf: URL(filePath: sound!))
         sfxPlayer.play()
     }
-    
+    //Paso 198
     private func giveWrongFeedback() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.error)

@@ -11,7 +11,7 @@ import SwiftUI
 struct Settings: View {
     //Paso 63
     @Environment(\.dismiss) private var dismiss
-    //Paso 
+    //Paso 205
     @EnvironmentObject private var store: Store
  
     var body: some View {
@@ -32,6 +32,7 @@ struct Settings: View {
                         //V-96,paso 76,add For each
                         ForEach(0..<7){i in
                             //Paso 77, si el libro esta activo
+                            //V-105,Paso 207, ponemos el sore
                             if store.books[i] == .active || (store.books[i] == .locked
                                                               && store.purchasedIDs.contains("hp\(i+1)"))
                             {
@@ -52,12 +53,14 @@ struct Settings: View {
                                 }
                                 //Vid 121
                                 .task{
+                                    //Paso 208
                                     store.books[i] = .active
                                     //Vid 128
                                     store.saveStatus()
                                 }
-                                //Paso 82
+                                //Paso 209
                                 .onTapGesture {
+                                    //Paso 208
                                     store.books[i] = .inactive
                                     //Vid 128
                                     store.saveStatus()
@@ -136,4 +139,6 @@ struct Settings: View {
 
 #Preview {
     Settings()
+    //Vid 105
+        .environmentObject(Store())
 }

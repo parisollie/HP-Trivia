@@ -9,16 +9,16 @@ import SwiftUI
 
 @main
 struct HP_TriviaApp: App {
-    //Vid 119
+    //V-105,paso 202
     @StateObject private var store = Store()
     //Vid 123
     @StateObject private var game = Game()
     var body: some Scene {
         WindowGroup {
             ContentView()
-            //Vid 119
+                //Paso 203
                 .environmentObject(store)
-            //Vid 123
+                //Vid 123
                 .environmentObject(game)
                 //Vid 121
                 .task{

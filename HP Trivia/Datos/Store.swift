@@ -5,6 +5,7 @@
 //  Created by Paul F on 24/10/24.
 //
 
+//V-105,Paso 200, creamos el archivo store
 import Foundation
 import StoreKit
 
@@ -15,15 +16,16 @@ enum BookStatus: Codable{
     case locked
 }
 
+//Paso 201,Queremos esta clase corra
 @MainActor
 class Store: ObservableObject {
     //Paso 75,ponemos los 7 libros de HP
     @Published var books: [BookStatus] = [.active,.active,.inactive,.locked,.locked,.locked,.locked]
-    // 119
+    //Paso 209
     @Published var products: [Product] = []
     //Vid 120
     @Published var purchasedIDs = Set<String>()
-    
+    //Paso 210
     private var productIDs = ["hp4","hp5","hp6","hp7"]
     //Vid 120
     private var updates: Task<Void, Never>? = nil
@@ -36,7 +38,7 @@ class Store: ObservableObject {
     //Vid 128
     private let savePath = FileManager.documentsDirectory.appending(path: "SavedBookStatus")
     
-    //Vid 119
+    //Paso 211
     func loadProducts() async {
         do {
             products = try await Product.products(for: productIDs)

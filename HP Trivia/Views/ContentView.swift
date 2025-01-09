@@ -24,7 +24,7 @@ struct ContentView: View {
     @State private var showSettings = false
     //V-97,paso 106
     @State private var playGame = false
-    //Vid 119
+    //v-105,Paso 204
     @EnvironmentObject private var store: Store
     //Vid 123
     @EnvironmentObject private var game: Game
@@ -215,7 +215,7 @@ struct ContentView: View {
                                 .sheet(isPresented: $showSettings){
                                     //Paso 87
                                     Settings()
-                                    //Vid 119
+                                    //Paso 206
                                     .environmentObject(store)
                                 }
                             }
@@ -311,5 +311,7 @@ struct ContentView: View {
     //Paso 29,
     VStack{
         ContentView()
+        //Vid 105
+            //.environment(Store())
     }
 }
