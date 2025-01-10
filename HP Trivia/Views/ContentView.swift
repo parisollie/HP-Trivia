@@ -26,7 +26,7 @@ struct ContentView: View {
     @State private var playGame = false
     //v-105,Paso 204
     @EnvironmentObject private var store: Store
-    //Vid 123
+    //V-109,paso 227
     @EnvironmentObject private var game: Game
     
     
@@ -86,7 +86,7 @@ struct ContentView: View {
                             VStack{
                                 Text("Recent Scores")
                                     .font(.title2)
-                                ///Vid 129
+                                ///V-115,Paso 289
                                 Text("\(game.recentScores[0])")
                                 Text("\(game.recentScores[1])")
                                 Text("\(game.recentScores[2])")
@@ -143,8 +143,9 @@ struct ContentView: View {
                             if animateViewsIn{
                                 //Paso 9,Siguiente botón "Play".
                                 Button{
+                                    //Paso 253
                                     filterQuestions()
-                                    //Vid 126
+                                    //V-112,Paso 250
                                     game.startGame()
                                     //Vid 111, start new game
                                     playGame.toggle()
@@ -155,6 +156,7 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .padding(.vertical,7)
                                         .padding(.horizontal,50)
+                                        //Paso 255, si no hay libres seleccionados ,haz el botón gris
                                         .background(store.books.contains(.active) ?.brown : .gray)
                                         .cornerRadius(7)
                                         .shadow(radius: 5)
@@ -172,10 +174,11 @@ struct ContentView: View {
                                 .transition(.offset(y:geo.size.height/3))
                                 //Vid 111
                                 .fullScreenCover(isPresented:$playGame){
+                                    //Paso 228
                                     Gameplay()
-                                    //Vid 123
+                                        //Paso 231
                                         .environmentObject(game)
-                                    //Vid 129
+                                         //Paso 290,para que aparezca solo en esta pantalla
                                         .onAppear{
                                             audioPlayer
                                                 .setVolume(0, fadeDuration: 2)
@@ -185,7 +188,7 @@ struct ContentView: View {
                                                 .setVolume(1, fadeDuration: 3)
                                         }
                                 }
-                                //Vid 126
+                                //Paso 254
                                 .disabled(store.books.contains(.active) ? false : true)
                             }
                             //Paso 34
@@ -228,8 +231,7 @@ struct ContentView: View {
                     //Paso 11,para que quede centrado por la imagen
                     .frame(width: geo.size.width)
                     
-                    //Vid 126
-                    
+                    //Paso 256
                     VStack{
                         if animateViewsIn{
                             if store.books.contains(.active) == false{
@@ -239,6 +241,7 @@ struct ContentView: View {
                             }
                         }
                     }
+                    //Paso 257
                     .animation(.easeInOut.delay(3),value:animateViewsIn)
                     
                     Spacer()
@@ -285,11 +288,7 @@ struct ContentView: View {
             print("Couldn't find the sound file")
         }
     }
-    
-    
-    
-    //Vid 125
-    
+    //paso 252
     private func filterQuestions (){
         var books:[Int] = []
         
@@ -298,7 +297,6 @@ struct ContentView: View {
                 books.append(index + 1)
             }
         }
-        
         game.filterQuestions(to: books)
         game.newQuestion()
     }
@@ -312,6 +310,8 @@ struct ContentView: View {
     VStack{
         ContentView()
         //Vid 105
-            //.environment(Store())
+            .environmentObject(Store())
+        //V-109
+            .environmentObject(Game())
     }
 }

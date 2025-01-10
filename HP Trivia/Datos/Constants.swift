@@ -14,7 +14,7 @@ import SwiftUI
 enum Constants{
     //Vid 91,Paso 6 importamos nuestra fuente de texto.
     static let hpFont = "PartyLetPlain"
-    //Vid 122
+    //V-108,paso 223
     static let previewQuestion = try! JSONDecoder().decode([Question].self, from: Data(contentsOf: Bundle.main.url(forResource: "trivia", withExtension: "json")!))[0]
 }
 
@@ -40,7 +40,7 @@ extension Button{
     }
 }
 
-//Vid 128,Paul Hudson
+//V-215,Paso 274,Paul Hudson
 extension FileManager{
     static var documentsDirectory:URL{
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

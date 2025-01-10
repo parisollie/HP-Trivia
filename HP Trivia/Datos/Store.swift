@@ -9,6 +9,7 @@
 import Foundation
 import StoreKit
 
+//Paso 283, le ponemos codable
 enum BookStatus: Codable{
     //V-96,paso 74,estado de los libros
     case active
@@ -23,19 +24,18 @@ class Store: ObservableObject {
     @Published var books: [BookStatus] = [.active,.active,.inactive,.locked,.locked,.locked,.locked]
     //Paso 209
     @Published var products: [Product] = []
-    //Vid 120
+    //Paso 213
     @Published var purchasedIDs = Set<String>()
     //Paso 210
     private var productIDs = ["hp4","hp5","hp6","hp7"]
-    //Vid 120
     private var updates: Task<Void, Never>? = nil
 
-    //Vid 120
+    //Paso 217, init
     init(){
         updates = watchForUpdates()
     }
     
-    //Vid 128
+    //V-114,paso 280
     private let savePath = FileManager.documentsDirectory.appending(path: "SavedBookStatus")
     
     //Paso 211
@@ -48,15 +48,16 @@ class Store: ObservableObject {
         }
     }
     
-    //Vid 120
-    
+    //V-107,Paso 212
     func purchase(_ product: Product) async {
         do{
+            //Que producto que queremos traer
             let result = try await product.purchase()
             switch result {
             //Purchase successfull, but now we have to verify reeipt
             case .success(let verificationResult):
                 switch verificationResult {
+                    
                    case .unverified(let signedType, let verificationError):
                         print("Error on \(signedType): \(verificationError)")
                    case .verified(let signedType):
@@ -81,7 +82,7 @@ class Store: ObservableObject {
         
     }
     
-    //Vid 120
+    //Paso 214, ver esto ,porque es complicado ,es para la compra en la tienda.
     private func checkPurchased() async {
         for product in products {
             guard let state = await product.currentEntitlement else {return}
@@ -99,7 +100,7 @@ class Store: ObservableObject {
             }
         }
     }
-    //Vid 120
+    //Paso 215
     private func watchForUpdates() ->Task<Void, Never> {
         Task(priority: .background){
             for await _ in Transaction.updates {
@@ -109,8 +110,7 @@ class Store: ObservableObject {
     }
     
     
-    //Vid 128
-    
+    //Paso 281
     func saveStatus(){
         do{
             let data = try JSONEncoder().encode(books)
@@ -120,7 +120,7 @@ class Store: ObservableObject {
             
         }
     }
-    
+    //Paso 284
     func loadStatus(){
         do{
             let data = try Data(contentsOf: savePath)

@@ -38,7 +38,7 @@ struct Gameplay: View {
     //Paso 190
     @State private var musicPlayer: AVAudioPlayer!
     @State private var sfxPlayer: AVAudioPlayer!
-    //Vid 123
+    //V-109,Paso 229
     @EnvironmentObject private var game: Game
     
     
@@ -62,7 +62,7 @@ struct Gameplay: View {
                         //Paso 96, ponemos el boton
                         Button("End Game") {
                             //TODO: End Game
-                            //Vid 127
+                            //V-113,Paso 257
                             game.endGame()
                             //Paso 152,para terminar el juego y salir de la ventana
                             dismiss()
@@ -74,6 +74,7 @@ struct Gameplay: View {
                         Spacer()
                         
                         //Paso 96
+                        //Paso 258, ponemos el,(game.gameScore)
                         Text("Score: \(game.gameScore)")
                     }
                     //Paso 98, agregamos el padding
@@ -88,6 +89,7 @@ struct Gameplay: View {
                         if animateViewsIn{
                             //Text("Who is Harry Potter?")
                             //Paso 99, agregamos el texto de las preguntas
+                            //Paso 259,game.currentQuestion.question
                             Text(game.currentQuestion.question)
                                 //Agregamos los modifiers
                                 .font(.custom(Constants.hpFont, size: 50))
@@ -140,7 +142,7 @@ struct Gameplay: View {
                                             }
                                             //Paso 194
                                         playFliSound()
-                                        //Vid 127
+                                        //Paso 260
                                         game.questionScore -= 1
                                     }
                                     //Paso 155, agregamos otra rotacion ,pero en 3d.
@@ -153,7 +155,7 @@ struct Gameplay: View {
                                     .offset(x: revealHint ? geo.size.width/2 : 0)
                                     //Vid 156, ponemos el overlay
                                     .overlay(
-                                        //Vid 127
+                                        //Paso 263,add game.currentQuestion.hint
                                         Text(game.currentQuestion.hint)
                                         //Text("The boy Who_____")
                                             //Ponemos sus modifiers
@@ -206,9 +208,9 @@ struct Gameplay: View {
                                             .easeInOut(duration: 1)){
                                                 revealBook = true
                                             }
-                                        //Vid 118
+                                       
                                         playFliSound()
-                                        //Vid 127
+                                        //Paso 261
                                         game.questionScore -= 1
                                     }
                                     .rotation3DEffect(.degrees(revealBook ? 1440 : 0), axis: (x: 0, y: 1, z: 0))
@@ -241,10 +243,12 @@ struct Gameplay: View {
                     LazyVGrid(columns:[GridItem(),
                         GridItem()]){
                         //Paso 103,ponemos el for
+                        //Paso 264, ponemos el array
                         ForEach(Array(game.answers.enumerated()),
                         //Paso 162, si la respuesta es correcta
+                        //Paso 265, ponemos el answer
                         id:\.offset) { i, answer in
-                            //Vid 115
+                            //Paso 266,game.currentQuestion.answers[answer] == true
                             if game.currentQuestion.answers[answer] == true {
                                 //Paso 123, ponemos el Vstack con el if ,para animacion.
                                 VStack{
@@ -252,6 +256,7 @@ struct Gameplay: View {
                                         //Paso 164, si la respuesta es falsa.
                                         if tappedCorrectAnswer == false {
                                             //Paso 105, ponemos la respuesta
+                                            //Paso 267, ponemos el answer
                                             Text(answer)
                                             //Agregamos sus modifiers.
                                                 //Para que pueda entrar toda la respuesta,minimumSca...
@@ -276,7 +281,7 @@ struct Gameplay: View {
                                                     }
                                                     //Paso 197
                                                     playCorrectSound()
-                                                    //Vid 127
+                                                    //Paso 269,espera 3 segundos cuando se marque el score
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                                                         game.correct()
                                                     }
@@ -291,6 +296,7 @@ struct Gameplay: View {
                             }else{
                                 VStack{
                                     if animateViewsIn{
+                                        //Paso 268,ponemos el answer
                                         Text(answer)
                                         //para que pueda entrar toda la respuesta.
                                             .minimumScaleFactor(0.5)
@@ -316,7 +322,7 @@ struct Gameplay: View {
                                                 playWrongSound()
                                                 //Paso 199
                                                 giveWrongFeedback()
-                                                //
+                                                //Paso 262
                                                 game.questionScore -= 1
                                             }
                                             //Paso 171,ponemos el scale ,hacemos mas pequeña a caja
@@ -353,6 +359,7 @@ struct Gameplay: View {
                     VStack{
                         if tappedCorrectAnswer{
                             //Paso 127, ponemos el puntuaje
+                            //Paso 271, ponemos (game.questionScore)
                             Text("\(game.questionScore)")
                                 //Agregamos sus modifiers
                                 .font(.largeTitle)
@@ -400,6 +407,7 @@ struct Gameplay: View {
                     //Vid 114
                     if tappedCorrectAnswer{
                         //Paso 129
+                        //Paso 272, ponemos game.correctAnswer
                         Text(game.correctAnswer)
                             //Agregamos sus modifiers.
                             .minimumScaleFactor(0.5)
@@ -432,7 +440,7 @@ struct Gameplay: View {
                                 revealBook = false
                                 movePointsToScore = false
                                 wrongAnswersTapped = []
-                                //Vid 127
+                                //Paso 273
                                 game.newQuestion()
                                 
                                 //Paso 182
@@ -478,7 +486,7 @@ struct Gameplay: View {
         //Paso 115, se debe poner para funcionen las animaciones el OnAppear.
         .onAppear{
             animateViewsIn = true
-            //Vid 129
+            //Paso 293,para que el sonido suene 3 segundos despues 
             DispatchQueue.main.asyncAfter(deadline: .now() + 3 ) {
                 //V-99,paso 129
                 //tappedCorrectAnswer = true
@@ -543,5 +551,7 @@ struct Gameplay: View {
 #Preview {
     VStack{
         Gameplay()
+        //Vid 109
+            .environmentObject(Game())
     }
 }

@@ -11,21 +11,22 @@ import SwiftUI
 struct HP_TriviaApp: App {
     //V-105,paso 202
     @StateObject private var store = Store()
-    //Vid 123
+    //V-109,paso 226
     @StateObject private var game = Game()
     var body: some Scene {
         WindowGroup {
             ContentView()
                 //Paso 203
                 .environmentObject(store)
-                //Vid 123
+                //Paso 227
                 .environmentObject(game)
-                //Vid 121
+                //V-107,paso 218 agregamos el task
                 .task{
                     //tan pronto habra la app ,cargamos los productos.
                     await store.loadProducts()
-                    //Vid 128, cargamos los puntuajes
+                    //V-114,Paso 279 cargamos los puntuajes
                     game.loadScores()
+                    //Paso 285
                     store.loadStatus()
                 }
         }

@@ -33,6 +33,7 @@ struct Settings: View {
                         ForEach(0..<7){i in
                             //Paso 77, si el libro esta activo
                             //V-105,Paso 207, ponemos el sore
+                            //Paso 219 add el ||
                             if store.books[i] == .active || (store.books[i] == .locked
                                                               && store.purchasedIDs.contains("hp\(i+1)"))
                             {
@@ -51,18 +52,18 @@ struct Settings: View {
                                         .shadow(radius: 1)
                                         .padding(3)
                                 }
-                                //Vid 121
+                                //Paso 220
                                 .task{
                                     //Paso 208
                                     store.books[i] = .active
-                                    //Vid 128
+                                    //Paso 289
                                     store.saveStatus()
                                 }
                                 //Paso 209
                                 .onTapGesture {
                                     //Paso 208
                                     store.books[i] = .inactive
-                                    //Vid 128
+                                    //Paso 288
                                     store.saveStatus()
                                 }
                                 //Paso 79,store.books[i] == .inactive
@@ -87,7 +88,7 @@ struct Settings: View {
                                 //Paso 83
                                 .onTapGesture{
                                     store.books[i] = .active
-                                    //Vid 128
+                                    //V-114,Paso 287
                                     store.saveStatus()
                                 }
                                 
@@ -108,7 +109,7 @@ struct Settings: View {
                                                 .white.opacity(0.75),
                                                 radius: 3)
                                 }//zstack
-                    
+                                 //V-107,Paso 218
                                 .onTapGesture {
                                     //el 3 es el libro numero 4 bloqueado
                                     let product = store.products[i-3]
@@ -132,6 +133,7 @@ struct Settings: View {
                 }
                 .doneButton()
             }
+            //Paso 294,para que no afecte las letras blancas
             .foregroundColor(.black)
         }
     }

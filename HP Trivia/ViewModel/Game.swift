@@ -6,98 +6,109 @@
 //
 
 import Foundation
+//Para animaciones
 import SwiftUI
 
+//V-109,Paso 225, ver el video de nuevo es mucha teoria
 @MainActor
 class Game : ObservableObject{
+    //Paso 230
     private var allQuestions: [Question] = []
+    //Paso 236
     private var answeredQuestions: [Int] = []
     //Vid 124
     var answer:[String] = []
-    //Vid 128
+    //Paso 276
     private let savePath = FileManager.documentsDirectory.appending(path: "SavedScores")
-    
+    //Paso 231
     var filteredQuestions: [Question] = []
+    //Paso 235
     var currentQuestion = Constants.previewQuestion
+    
     var answers:  [String] = []
     
-    //Para saber la respuesta correcta,queremos la key
+    //Paso 244, computer propert para saber la respuesta correcta,queremos la key
     var correctAnswer: String{
         currentQuestion.answers.first(where:{$0.value == true})!.key
     }
     
-    //Vid 125
+    //V-111,Paso 245
     @Published var gameScore = 0
     @Published var questionScore = 5
     @Published var recentScores = [0,0,0]
     
+    //Paso 233
     init (){
         decodeQuestions()
     }
-    //Vid 125
+    //Paso 246
     func startGame(){
         gameScore = 0
         questionScore = 5
         answeredQuestions = []
     }
-    //Vid 123
+    //Paso 234, para las preguntas que selecciono el usuario
     func filterQuestions(to books: [Int]){
         filteredQuestions = allQuestions.filter{books.contains($0.book)}
     }
     
+    //Paso 236
     func newQuestion(){
+        
         if filteredQuestions.isEmpty{
             return
         }
+        //Paso 239
         if answeredQuestions.count == filteredQuestions.count{
+            //Empieza de nuevo
             answeredQuestions = []
         }
+        //Paso 237
         var potentialQuestion = filteredQuestions.randomElement()!
         while answeredQuestions.contains(potentialQuestion.id){
             potentialQuestion = filteredQuestions.randomElement()!
         }
+        //Paso 238
         currentQuestion = potentialQuestion
         
-        //Vid 124
+        //V-110,paso 240
         answers = []
         
-        //Vid 124
+        //Paso 241,los diccionarios tiene un valor y una llave
         for answer in currentQuestion.answers.keys {
             answers.append(answer)
         }
-        //Para ver respuestas aleatorias
+        //Paso 242,Para ver respuestas aleatorias
         answers.shuffle()
         
-        //Vid 125
-        
+        //Paso 247
         questionScore = 5
     }
     
-    //Vid 124
-    
+    //Paso 243
     func correct(){
         answeredQuestions.append(currentQuestion.id)
         
         //TODO: Update Score
-        //Vid 125
-        //Vid 127 ponemos animacion
+        //V-113,Paso 270 ponemos animacion
         withAnimation{
+            //Paso 248
             gameScore += questionScore
         }
        
     }
     
-    //Vid 125
+    //Paso 249
     func endGame (){
         recentScores[2] = recentScores[1]
         recentScores[1] = recentScores[0]
         recentScores[0] = gameScore
         
-        //Vid 128
+        //Paso 277
         saveScores()
     }
     
-    //Vid 128 
+    //Paso 278
     func loadScores(){
         do{
             let data = try Data (contentsOf: savePath)
@@ -114,6 +125,7 @@ class Game : ObservableObject{
      50 27 15
      */
     
+    //Paso 232
     private func decodeQuestions(){
         if let url = Bundle.main.url(forResource: "trivia", withExtension: "json"){
             do{
@@ -128,8 +140,7 @@ class Game : ObservableObject{
         }
     }
     
-    //vid 128
-    
+    //V-114,paso 275
     private func saveScores(){
         do{
             let data = try JSONEncoder().encode(recentScores)
@@ -139,9 +150,5 @@ class Game : ObservableObject{
             print("Unable to save data: \(error)")
         }
     }
-    
-    
-    
-    
     
 }
